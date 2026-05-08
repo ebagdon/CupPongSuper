@@ -1,0 +1,18 @@
+{
+	"AchievementIDs":[],
+	"LeaderboardIDs":[
+		{
+			"InternalID":"Wins",
+			"AppleID":"com.qiveal.cuppongsuper.winsleaderboard",
+			"GoogleID":""
+		}
+	],
+	"CloudVariables":[],
+	"AppleSupported":true,
+	"GoogleSupported":false,
+	"GoogleAppID":"",
+	"GoogleSetupRun":false,
+	"DebugModeEnabled":false,
+	"Version":"2.7.5",
+	"SettingsLocation":"0"
+}
