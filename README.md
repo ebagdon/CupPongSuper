@@ -1,1 +1,1 @@
-Would you like to play it? Download here: https://apps.apple.com/us/app/cup-pong-super/id1619138529
+Would you like to play it? Download it here: https://apps.apple.com/us/app/cup-pong-super/id1619138529
