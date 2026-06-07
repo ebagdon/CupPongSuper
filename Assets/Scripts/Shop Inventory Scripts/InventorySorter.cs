@@ -29,12 +29,40 @@ public class InventorySorter : MonoBehaviour
     
     // variables for the ball skins and cup skins scrolls
     [SerializeField] private RectTransform ballSkinsInventoryScrollContentRect, cupSkinsInventoryScrollContentRect;
+    private float ballSkinsInventoryScrollOriginalContentSizeY, cupSkinsInventoryScrollOriginalContentSizeY;
+    [SerializeField] private GameObject ballSkinsInventoryScroll;
     [SerializeField] private GameObject cupSkinsInventoryScroll;
+
+    private void Awake()
+    {
+        // get the original sizes of the inventory ui scrolls
+        ballSkinsInventoryScrollOriginalContentSizeY = ballSkinsInventoryScrollContentRect.sizeDelta.y;
+        cupSkinsInventoryScrollOriginalContentSizeY = cupSkinsInventoryScrollContentRect.sizeDelta.y;
+    }
 
     public void SortInventory()
     {
+        // reset the sizes of the inventory ui scrolls and the starting column that we place ui elements in
+        ResetBallRows();
+        ResetCupRows();
+        column = 1;
+
         // set thes spawn y
         spawnY = startingY;
+
+        // activate everything in the ball skins inventory scroll
+        ballSkinsInventoryScroll.gameObject.SetActive(true);
+        foreach (Transform child in ballSkinsInventoryScrollContentRect.transform)
+        {
+            child.gameObject.SetActive(true);
+        }
+
+        // activate everything in the ball skins inventory scroll
+        cupSkinsInventoryScroll.gameObject.SetActive(true);
+        foreach (Transform child in cupSkinsInventoryScrollContentRect.transform)
+        {
+            child.gameObject.SetActive(true);
+        }
 
         // get the ball skins and cups skins info
         BallSkinInventoryInfo[] ballSkinInventoryInfoTypes = FindObjectsOfType<BallSkinInventoryInfo>();
@@ -93,14 +121,14 @@ public class InventorySorter : MonoBehaviour
                         ballSkinInventoryInfoTypes[b].gameObject.GetComponent<RectTransform>().anchoredPosition =
                             new Vector3(firstX, spawnY, transform.position.z);
 
-                        // add to the column
-                        column++;
-
                         // handle the row
                         if (currentBallRow < ballRow) {
                             NewBallRow();
                             currentBallRow = ballRow;
                         }
+
+                        // add to the column
+                        column++;
                     }
                     else if (column == 2) { // if the column is the second column 
                         // set the ui object's position
@@ -137,14 +165,14 @@ public class InventorySorter : MonoBehaviour
                         cupSkinInventoryInfoTypes[b].gameObject.GetComponent<RectTransform>().anchoredPosition =
                             new Vector3(firstX, spawnY, transform.position.z);
 
-                        // add to the column
-                        column++;
-
                         // handle the row
                         if (currentCupRow < cupRow) {
                             NewCupRow();
                             currentCupRow = cupRow;
                         }
+
+                        // add to the column
+                        column++;
                     }
                     else if (column == 2) { // if the column is the last column
                         // set the ui object's position
@@ -172,6 +200,26 @@ public class InventorySorter : MonoBehaviour
 
         // disable the cups skins scroll
         cupSkinsInventoryScroll.SetActive(false);
+    }
+
+    void ResetBallRows()
+    {
+        // reset the size of the ball inventory scroll
+        ballSkinsInventoryScrollContentRect.sizeDelta = 
+            new Vector2(ballSkinsInventoryScrollContentRect.sizeDelta.x, ballSkinsInventoryScrollOriginalContentSizeY);
+
+        currentBallRow = 1;
+        ballRow = 1;
+    }
+
+    void ResetCupRows()
+    {
+        // reset the size of the cup inventory scroll
+        cupSkinsInventoryScrollContentRect.sizeDelta =
+            new Vector2(cupSkinsInventoryScrollContentRect.sizeDelta.x, ballSkinsInventoryScrollOriginalContentSizeY);
+
+        currentCupRow = 1;
+        cupRow = 1;
     }
 
     void NewBallRow()

@@ -10,20 +10,17 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
     // public instance that can be accessed anywhere in my code
     public static AdsManager instance;
 
-    // ids and current id variables for interstitial ads
-    private string interstitial_IOS = "ad_id_goes_here";
-    private string interstitial_ANDROID = "ad_id_goes_here";
-    private string interstitialID;
+    // interstitial ad id
+    private string interstitialID = "id_goes_here";
 
-    // ids and current id variables for rewarded ads
-    private string rewarded_IOS = "ad_id_goes_here";
-    private string rewarded_ANDROID = "ad_id_goes_here";
-    private string rewardedID;
+    // rewarded ad id
+    private string rewardedID = "id_goes_here";
 
-    // ids and current id variables for the game id
-    private string gameId_IOS = "game_id_goes_here";
-    private string gameId_ANDROID = "game_id_goes_here";
-    private string gameId;
+    // game id
+    private string gameId = "id_goes_here";
+
+    // bool for if the ads sdk have been initialized
+    private bool adsInitialized = false;
     
     // bools for loading the ad
     [HideInInspector] public bool loadingRewardedAd;
@@ -37,14 +34,23 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
             instance = this;
         else
             Destroy(gameObject);
-        
-        // set current ad IDS
-        interstitialID = (Application.platform == RuntimePlatform.IPhonePlayer) ? interstitial_IOS : interstitial_ANDROID;
-        rewardedID = (Application.platform == RuntimePlatform.IPhonePlayer) ? rewarded_IOS : rewarded_ANDROID;
 
-        // set current game id and initialize the ads
-        gameId = (Application.platform == RuntimePlatform.IPhonePlayer) ? gameId_IOS : gameId_ANDROID;
-        Advertisement.Initialize(gameId, false, this);
+        // initialize the ads if they haven't been initialized already
+        if (!adsInitialized && Application.internetReachability != NetworkReachability.NotReachable)
+        {
+            Advertisement.Initialize(gameId, false, this);
+            adsInitialized = true;
+        }
+    }
+
+    private void Update()
+    {
+        // initialize the ads if they haven't been initialized already
+        if (!adsInitialized && Application.internetReachability != NetworkReachability.NotReachable)
+        {
+            Advertisement.Initialize(gameId, false, this);
+            adsInitialized = true;
+        }
     }
 
     public void PlayRewardedAd()
@@ -96,6 +102,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
     {
         //Debug.Log($"Error loading Ad Unit: {adUnitId} - {error.ToString()} - {message}");
         // Optionally execute code if the Ad Unit fails to load, such as attempting to try again.
+
 
         // if the ad that failed to load is the rewarded ad
         if (adUnitId == rewardedID)

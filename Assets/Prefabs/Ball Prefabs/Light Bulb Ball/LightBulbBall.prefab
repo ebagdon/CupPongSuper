@@ -209,11 +209,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5689509719863292124, guid: 4af8c1230b67de54ba70b5d44ccea8d3, type: 3}
       propertyPath: m_TagString
-      value: Player's Ball
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 5689509719863292124, guid: 4af8c1230b67de54ba70b5d44ccea8d3, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 126
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5689509719863292125, guid: 4af8c1230b67de54ba70b5d44ccea8d3, type: 3}
       propertyPath: m_RootOrder

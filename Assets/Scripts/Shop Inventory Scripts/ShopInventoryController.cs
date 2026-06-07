@@ -71,9 +71,6 @@ public class ShopInventoryController : MonoBehaviour
     // buttons we need to deactivate
     private Button[] buttonsToDeactivate;
 
-    // bool for if we need to sort the inventory
-    private bool needToSortInventory = true;
-
     // components
     private MoveCameraToShopView moveCameraToShopView;
     private PreviewDragLookAround previewDragLookAround;
@@ -206,12 +203,8 @@ public class ShopInventoryController : MonoBehaviour
         // play the button sound
         SoundManager.instance.PlayButtonClickSound();
 
-        // if we need to sort the inventory sort it
-        if (needToSortInventory)
-        {
-            inventorySorter.SortInventory();
-            needToSortInventory = false;
-        }
+        // sort the inventory
+        inventorySorter.SortInventory();
 
         // set the inventory status
         currentInventoryStatus = ballsStatus;
@@ -234,12 +227,8 @@ public class ShopInventoryController : MonoBehaviour
         // play the button sound
         SoundManager.instance.PlayButtonClickSound();
 
-        // if we need to sort the inventory sort it
-        if (needToSortInventory)
-        {
-            inventorySorter.SortInventory();
-            needToSortInventory = false;
-        }
+        // sort inventory
+        inventorySorter.SortInventory();
 
         // set the inventory status
         currentInventoryStatus = cupsStatus;
@@ -542,9 +531,6 @@ public class ShopInventoryController : MonoBehaviour
 
         // make it so we own the skin
         ShopInventoryDataManager.instance.SaveOwnedData(savedFileName, true);
-
-        // make it so we need to sort the inventory
-        needToSortInventory = true;
 
         // reset to default values
         savedFileName = "";

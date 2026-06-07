@@ -75,15 +75,16 @@ public class BallClickController : MonoBehaviour
         pullbackBallThrow = DataManager.instance.GetBool(DataManager.instance.ballThrowMode_PULLBACK_DATA);
     }
 
-    private void Start()
-    {
-        // get the ball and it's rigidbody
-        playerBall = GameObject.FindWithTag(Tags.PLAYERS_BALL_TAG);
-        playerBallBody = playerBall.GetComponent<Rigidbody>();
-    }
-
     private void Update()
     {
+        // get the ball's rigidbody if we don't have it already
+        if (playerBall == null || playerBallBody == null)
+        {
+            playerBall = GameObject.FindWithTag(Tags.PLAYERS_BALL_TAG);
+            playerBallBody = playerBall.GetComponent<Rigidbody>();
+            return;
+        }
+
         // if the gameOverUI has respawnedAfterAd
         if (GameOverManager.instance.respawnedAfterAd)
         {
@@ -202,7 +203,7 @@ public class BallClickController : MonoBehaviour
             attemptedThrowDistanceY *= -1.1125f;
             throwDistanceX *= -1.1125f;
 
-            // throw ther ball
+            // throw the ball
             if (attemptedThrowDistanceY >= 0f)
                 ThrowBall(attemptedThrowDistanceY);
             else
